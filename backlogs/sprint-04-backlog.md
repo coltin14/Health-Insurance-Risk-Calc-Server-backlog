@@ -24,10 +24,6 @@ Sprint 4 Backlog:
 | RC-021 | As a developer, I want to implement a BMI API that converts height (feet/inches) and weight (pounds) so that the server can categorize the users as normal, overweight, or obese  | 8 | 4 | N | -- | Neil Mamparo |
 | RC-003 | As a Scrum Master, I want to facilitate Sprint Planning and story commitment so that I can help the team work with focus and alignment. | 8 | 2 | Y | -- | Neil Mamparo |
 | RC-002 | As a Product Owner, I want to manage the backlogs and focus on the Minimum Viable Product (MVP) and prioritize stories so that I can deliver value to users by the end of the sprint. | 8 | 2 | Y | -- | Coltin Rogge |
-| RC-020 | As a developer, I want to implement a bp-category API that takes systolic and diastolic values so that the system can categorize the blood pressure as normal, elevated, stage 1, stage 2, or crisis. | 8 | 4 | N | -- | -- |
-| RC-021 | As a developer, I want to implement a BMI API that converts height (feet/inches) and weight (pounds) so that the server can categorize the users as normal, overweight, or obese  | 8 | 4 | N | -- | -- |
-| RC-003 | As a Scrum Master, I want to facilitate Sprint Planning and story commitment so that I can help the team work with focus and alignment. | 8 | 2 | Y | -- | Neil Mamparo |
-| RC-002 | As a Product Owner, I want to manage the backlogs and focus on the Minimum Viable Product (MVP) and prioritize stories so that I can deliver value to users by the end of the sprint. | 8 | 2 | Y | -- | Coltin Rogge |
 | RC-005 | As a developer, I want to set up GitHub client and server repositories along with connected Azure Static Web App and Node.js servers so that I can deploy and test code collaboratively in the cloud. | 7 | 5 | Y | -- | -- |
 | RC-022 | As a developer, I want the client application to call the Node.js APIs so that the user's data can be processed on the server and the results can be displayed. | 7 | 3 | N | -- | -- |
 | RC-023 | As a user, I want to see the data I submitted along with the calculated risk score so that I can understand my health risks | 7 | 3 | N | -- | -- |
