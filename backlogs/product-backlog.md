@@ -13,4 +13,5 @@ permalink: /backlogs/product-backlog/
 | RC-016 | As a user, I want a visually appealing application that utilizes Tailwind to style the interface, allowing me to enjoy a modern and visually pleasing experience. | 3 | 5 | N | -- | -- |
 | RC-013 | As a developer, I want to configure local `.env` or config files for seamless local testing so that I can develop without environment conflicts. (fix) | 2 | 5 | N | -- | -- |
 | RC-017 | As a user, I want to identify and process my family history of hypertension so that I can understand how my health history affects my risk. | 1 | 3 | N | -- | -- |
+| RC-004 | As a developer, I want to create a GitHub organization and repos for clients and servers so that I can collaborate using centralized version control. | 1 | 2 | Y | Ready | -- |
 | RC-019 | As a user, I would like the application to run natively on my iPhone so that I can use it while driving. | 1 | -- | N | -- | --|
