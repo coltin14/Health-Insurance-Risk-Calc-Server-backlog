@@ -7,7 +7,7 @@ permalink: /backlogs/product-backlog/
 # 📋 Product Backlog – *Insurance Risk Calculator*
 
 | **ID** | **User Story / Task** | **Priority (1-10)** | **Estimate (SP)** | **Spike (Y/N)** | **Status** | **Assigned** |
-|--------|------------------------|--------------|--------------|------------|--------------|--------------|
+| :--- | :--- | :---: | :---: | :---: | :--- | :--- |
 
 | RC-018 | As a developer, I want to remove all unnecessary code from the Node.js servers so that I can improve maintainability and performance. | 4 | 3 | Y | -- | -- |
 | RC-016 | As a user, I want a visually appealing application that utilizes Tailwind to style the interface, allowing me to enjoy a modern and visually pleasing experience. | 3 | 5 | N | -- | -- |
