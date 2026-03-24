@@ -13,11 +13,6 @@ app.get('/ping', (req, res) => {
   res.json({ message: 'Server is awake!' });
 });
 
-// Root route
-app.get('/', (req, res) => {
-  res.send('API is running');
-});
-
 // BMI api
 app.post('/bmi', (req, res) => {
   const { weight, heightFeet, heightInches } = req.body;
@@ -33,7 +28,7 @@ app.post('/bmi', (req, res) => {
   }
   const height = (heightFeet * 12 + heightInches);
   // round to one decimal
-  const bmi = parseFloat(weight / (height * height) * 703).toFixed(1);
+  const bmi = Number((weight / (height * height) * 703).toFixed(1));
 
   let category;
 
