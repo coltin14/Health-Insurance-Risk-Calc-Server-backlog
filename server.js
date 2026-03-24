@@ -1,6 +1,6 @@
 const express = require("express");
 const app = express();
-const PORT = 3000;
+const PORT = process.env.PORT || 3000;
 
 app.use(express.json());
 
@@ -43,6 +43,37 @@ app.post('/bmi', (req, res) => {
   }
   res.json({ bmi, category });
 });
+
+// Blood Pressure API
+app.post('/bp', (req, res) => {
+	const { systolic, diastolic } = req.body;
+	// Input validation
+	if (!systolic || !diastolic) {
+		return res.status(400).json({ error: 'Systolic and diastolic pressure are required.' });
+	} 
+	if (typeof systolic !== 'number' || typeof diastolic !== 'number') {
+		return res.status(400).json({ error: 'Systolic and diastolic pressure must be numbers.' });
+	}
+	if (systolic <= 0 || diastolic < 0) {
+		return res.status(400).json({ error: 'Systolic and diastolic pressure must be positive.' });
+	}
+	// Determine category
+	let category;
+	if (systolic < 120 && diastolic < 80) {
+		category = "normal"
+	} else if (systolic > 120 && systolic < 130 && diastolic < 80) {
+		category = "elevated"
+	} else if ((systolic > 130 && systolic < 140) || (diastolic > 80 && diastolic < 90)) {
+		category = "stage_1"
+	} else if (systolic > 180 || diastolic > 120) {
+		category = "crisis"
+	} else if (systolic > 140 || diastolic > 90) {
+		category = "stage_2"
+	} else {
+		return res.status(400).json({ error: 'The blood pressure API has an error.' });
+	}
+	res.json(category)
+})
 
 //Risk API (Coltin Rogge)
 app.post('/risk', (req, res) => {
