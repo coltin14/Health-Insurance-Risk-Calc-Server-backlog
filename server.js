@@ -8,12 +8,17 @@ app.get('/', (req, res) => {
   res.send('Health Insurance Risk Calculator API is running');
 });
 
-/* PING API */
+// Ping API
 app.get('/ping', (req, res) => {
   res.json({ message: 'Server is awake!' });
 });
 
-/* BMI API */
+// Root route
+app.get('/', (req, res) => {
+  res.send('API is running');
+});
+
+// BMI api
 app.post('/bmi', (req, res) => {
   const { weight, heightFeet, heightInches } = req.body;
   // input validation  
