@@ -1,15 +1,12 @@
 {
-    "name": "health-insurance-risk-api",
-    "description": "Risk Calculator API for Azure App Service",
-    "version": "1.0.0",
-    "private": true,
-    "license": "MIT",
-    "main": "server.js",
-    "scripts": {
-        "start": "node server.js"
-    },
-    "dependencies": {
-        "cors": "^2.8.5",
-        "express": "^4.22.1"
-    }
+
+  "name": "bmi-api",
+  "version": "1.0.0",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "express": "^5.2.1"
+  }
 }
