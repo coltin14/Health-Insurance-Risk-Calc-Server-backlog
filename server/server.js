@@ -43,3 +43,49 @@ app.post('/bmi', (req, res) => {
   }
   res.json({ bmi, category });
 });
+
+//Risk API (Coltin Rogge)
+app.post('/risk', (req, res) => {
+  const { age, bmiCategory, bpCategory, familyHistory} = req.body;
+
+  // getting the input validation
+  if (age === null || bmiCategory === null || bpCategory === null || familyHistory === null) {
+    return res.status(400).json({error: 'All fields are required.'});
+  }
+  let riskScore = 0;
+
+  // age risk scoring
+  if (age < 30) { riskScore += 0; }
+  else if (age < 45) { riskScore += 10; }
+  else if (age < 60) { riskScore += 20; }
+  else  riskScore += 30; 
+
+  // BMI risk scoring
+  if (bmiCategory === "normal") { riskScore += 0; }
+  else if (bmiCategory === "overweight") { riskScore += 30; }
+  else if (bmiCategory === "obese") { riskScore += 75; }
+
+  // Blood Pressure risk scoring
+  if (bpCategory === "normal") { riskScore += 0; }
+  else if (bpCategory === "elevated") { riskScore += 15; }
+  else if (bpCategory === "stage_1") { riskScore += 30; }
+  else if (bpCategory === "stage_2") { riskScore += 75; }
+  else if (bpCategory === "crisis") { riskScore += 100; }
+
+  // family history risk scoring
+  if (familyHistory.includes("diabetes")) { riskScore += 10; }
+  if (familyHistory.includes("cancer")) { riskScore += 10; }
+  if (familyHistory.includes("Alzheimer")) { riskScore += 10; }
+
+  // final risk level 
+  let riskLevel;
+  if (riskScore <= 20) { riskLevel = "Low risk"; }
+  else if (riskScore <= 50) { riskLevel = "Moderate risk"; }
+  else if (riskScore <= 75) { riskLevel = "High risk"; }
+  else { riskLevel = "Uninsurable"; }
+
+  console.log("Risk Score calculated:", req.body);
+  console.log("Response sent:", { riskScore, riskLevel });
+
+  res.json({ riskScore, riskLevel });
+});
