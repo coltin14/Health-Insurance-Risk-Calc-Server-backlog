@@ -4,6 +4,10 @@ const PORT = 3000;
 
 app.use(express.json());
 
+app.get('/', (req, res) => {
+  res.send('Health Insurance Risk Calculator API is running');
+});
+
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
 });
