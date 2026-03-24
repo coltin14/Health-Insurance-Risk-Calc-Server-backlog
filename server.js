@@ -8,10 +8,6 @@ app.get('/', (req, res) => {
   res.send('Health Insurance Risk Calculator API is running');
 });
 
-app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
-});
-
 /* PING API */
 app.get('/ping', (req, res) => {
   res.json({ message: 'Server is awake!' });
@@ -92,4 +88,8 @@ app.post('/risk', (req, res) => {
   console.log("Response sent:", { riskScore, riskLevel });
 
   res.json({ riskScore, riskLevel });
+});
+
+app.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`);
 });
