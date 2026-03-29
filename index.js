@@ -42,6 +42,7 @@ app.post('/bmi', (req, res) => {
   res.json({ bmi, category });
 });
 
+// Blood Pressure API
 app.post('/bp', (req, res) => {
   const { systolic, diastolic } = req.body;
 
@@ -84,16 +85,10 @@ app.post('/risk', (req, res) => {
   else  riskScore += 30; 
 
   // BMI risk scoring
-<<<<<<< HEAD
-  if (bmiCategory === "Healthy") { riskScore += 0; }
-  else if (bmiCategory === "Overweight") { riskScore += 30; }
-  else if (bmiCategory === "Obesity") { riskScore += 75; }
-=======
   if (bmiCategory === "underweight") { riskScore += 30; }
-  else if (bmiCategory === "normal") { riskScore += 0; }
+  else if (bmiCategory === "normal") { riskScore += 0; }  
   else if (bmiCategory === "overweight") { riskScore += 30; }
   else if (bmiCategory === "obese") { riskScore += 75; }
->>>>>>> 92eaf82 (updated API error handling)
 
   // Blood Pressure risk scoring
   if (bpCategory === "normal") { riskScore += 0; }
