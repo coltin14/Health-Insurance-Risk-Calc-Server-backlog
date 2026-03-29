@@ -1,77 +1,127 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Our Team</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      text-align: center;
-      background-color: #f4f4f4;
-      margin: 0;
-      padding: 0;
-    }
-    header {
-      background-color: #333;
-      color: white;
-      padding: 20px 0;
-    }
-    main {
-      padding: 20px;
-    }
-    .team-photo {
-      width: 80%;
-      max-width: 600px;
-      margin: 20px auto;
-      display: block;
-      border: 3px solid #ccc;
-    }
-    ul {
-      list-style-type: none;
-      padding: 0;
-    }
-    li {
-      margin: 10px 0;
-    }
-    a {
-      color: #0077cc;
-      text-decoration: none;
-    }
-    a:hover {
-      text-decoration: underline;
-    }
-    section {
-      margin-top: 40px;
-    }
-  </style>
-</head>
+    <meta charset="UTF-8">
+    <title>Health Insurance Risk Calculator</title>
+    <link rel="stylesheet" href="index.css"> </head>
 <body>
-  <header>
-    <h2>*** Your team should replace this entirely with something uniquely your own ***</h2>
-    <h1>Welcome to Our Starter Scrum Team Page</h1>
-    <h2>Generate by ChatGPT (with a little help from Eric)</h2>
-  </header>
-  <main>
-    <h2>Meet the Team</h2>
-    <!-- Replace with your own image and map coordinates -->
-    <img src="team-photo.jpg" usemap="#teammap" alt="Team Photo" class="team-photo">
 
-    <map name="teammap">
-      <area shape="rect" coords="49,50,150,150" href="https://github.com/EricJPogue" alt="Eric Pogue">
-      <area shape="rect" coords="160,50,260,150" href="member2.html" alt="Member 2">
-      <!-- Add more areas per team member -->
-    </map>
+    <h1>Health Insurance Risk Assessment</h1>
+    <p>Follow the steps below to calculate your insurance risk category.</p>
 
-    <ul>
-      <li><a href="https://github.com/EricJPogue">Eric Pogue (epogue@lewisu.edu)</a></li>
-      <li><a href="member2.html">Member 2</a></li>
-      <!-- Add more team members -->
-    </ul>
+    <form id="riskForm">
+        <div class="section">
+            <h3>1. Age</h3>
+            <input type="number" id="age" placeholder="Enter age" required min="1" max="120">
+        </div>
 
-    <section id="repository-and-backlogs">
-      <p>[[team-name-in-camel-case]]GitHub Repository: <a href="#">[[team-github-repository-url]]</a></p>
-    </section>
-  </main>
+        <div class="section">
+            <h3>2. Body-Mass Index (BMI)</h3>
+            <input type="number" id="weight" placeholder="Weight (lbs)" required min="1">
+            <div class="height-group">
+                <input type="number" id="feet" placeholder="Feet" required min="1" max="7">
+                <input type="number" id="inches" placeholder="Inches" required min="0" max="11">
+            </div>
+        </div>
+
+        <div class="section">
+            <h3>3. Blood Pressure</h3>
+            <p>Select your systolic and diastolic levels:</p>
+            <input type="number" id="systolic" placeholder="Systolic (top number)" required>
+            <input type="number" id="diastolic" placeholder="Diastolic (bottom number)" required>
+        </div>
+
+        <div class="section">
+            <h3>4. Family History</h3>
+            <p>Select All That Apply</p>
+            <label><input type="checkbox" name="history" value="diabetes"> Diabetes</label><br>
+            <label><input type="checkbox" name="history" value="cancer"> Cancer</label><br>
+            <label><input type="checkbox" name="history" value="Alzheimer"> Alzheimer's</label>
+        </div>
+
+        <br>
+        <button type="button" onclick="calculateRisk()">Calculate My Risk</button>
+    </form>
+
+    <hr>
+
+    <div id="resultDisplay" style="display:none; background: #f4f4f4; padding: 15px;">
+        <h2>Results</h2>
+        <div id="summary"></div>
+        <h3 id="finalRisk" style="color: #d9534f;"></h3>
+        <button onclick="location.reload()">Reset Calculator</button>
+    </div>
+
+    <div class="chart-container">
+        <h3>Blood Pressure Reference Chart</h3>
+        <table border="1" cellpadding="10">
+            <tr style="background:#eee;"><th>Category</th><th>Systolic</th><th>Diastolic</th></tr>
+            <tr><td>Normal</td><td>< 120</td><td>< 80</td></tr>
+            <tr><td>Elevated</td><td>120 - 129</td><td>< 80</td></tr>
+            <tr><td>Stage 1</td><td>130 - 139</td><td>80 - 89</td></tr>
+            <tr><td>Stage 2</td><td>140+</td><td>90+</td></tr>
+            <tr><td>Crisis</td><td>180+</td><td>120+</td></tr>
+        </table>
+    </div>
+
+    <script>
+        const API_BASE = "https://health-insurance-risk-calc-server-backlog-fngae6hphbgcchd8.centralus-01.azurewebsites.net/";
+
+        async function calculateRisk() {
+            // Collect Form Data
+            const age = parseInt(document.getElementById('age').value);
+            const weight = parseFloat(document.getElementById('weight').value);
+            const heightFeet = parseInt(document.getElementById('feet').value);
+            const heightInches = parseInt(document.getElementById('inches').value);
+            const systolic = parseInt(document.getElementById('systolic').value);
+            const diastolic = parseInt(document.getElementById('diastolic').value);
+            
+            const history = [];
+            document.querySelectorAll('input[name="history"]:checked').forEach(cb => history.push(cb.value));
+
+            try {
+                //BMI Category
+                const bmiRes = await fetch(`${API_BASE}/bmi`, {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({ weight, heightFeet, heightInches })
+                });
+                const bmiData = await bmiRes.json();
+                console.log("BMI Response:", bmiData);
+
+                //BP Category
+                const bpRes = await fetch(`${API_BASE}/bp`, {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({ systolic, diastolic })
+                });
+                const bpCategory = await bpRes.json();
+                console.log("BP Response:", bpCategory);
+
+                //Final risk level
+                const riskRes = await fetch(`${API_BASE}/risk`, {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({
+                        age: age,
+                        bmiCategory: bmiData.category,
+                        bpCategory: bpCategory,
+                        familyHistory: history
+                    })
+                });
+                const riskData = await riskRes.json();
+                console.log("Risk Response:", riskData);
+
+                //Display Results
+                document.getElementById('resultDisplay').style.display = 'block';
+                document.getElementById('summary').innerHTML = `Age ${age}, BMI ${bmiData.category}, BP ${bpCategory.category}`;
+                document.getElementById('finalRisk').innerText = `Risk Category: ${riskData.riskLevel}`;
+
+            } catch (error) {
+                alert("Error connecting to the server. Check your Azure URL!");
+                console.error(error);
+            }
+        }
+    </script>
 </body>
 </html>

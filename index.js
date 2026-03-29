@@ -94,9 +94,9 @@ app.post('/risk', (req, res) => {
   else  riskScore += 30; 
 
   // BMI risk scoring
-  if (bmiCategory === "normal") { riskScore += 0; }
-  else if (bmiCategory === "overweight") { riskScore += 30; }
-  else if (bmiCategory === "obese") { riskScore += 75; }
+  if (bmiCategory === "Healthy") { riskScore += 0; }
+  else if (bmiCategory === "Overweight") { riskScore += 30; }
+  else if (bmiCategory === "Obesity") { riskScore += 75; }
 
   // Blood Pressure risk scoring
   if (bpCategory === "normal") { riskScore += 0; }
@@ -106,8 +106,8 @@ app.post('/risk', (req, res) => {
   else if (bpCategory === "crisis") { riskScore += 100; }
 
   // family history risk scoring
-  if (familyHistory.includes("diabetes")) { riskScore += 10; }
-  if (familyHistory.includes("cancer")) { riskScore += 10; }
+  if (familyHistory.includes("Diabetes")) { riskScore += 10; }
+  if (familyHistory.includes("Cancer")) { riskScore += 10; }
   if (familyHistory.includes("Alzheimer")) { riskScore += 10; }
 
   // final risk level 
