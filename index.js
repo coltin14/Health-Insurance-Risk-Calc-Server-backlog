@@ -19,71 +19,60 @@ app.get('/ping', (req, res) => {
 // BMI api
 app.post('/bmi', (req, res) => {
   const { weight, heightFeet, heightInches } = req.body;
-  // input validation  
+
   if (!weight || !heightFeet || !heightInches) {
     return res.status(400).json({ error: 'Weight and height are required.' });
-  } 
+  }
   if (typeof weight !== 'number' || typeof heightFeet !== 'number' || typeof heightInches !== 'number') {
     return res.status(400).json({ error: 'Weight and height must be numbers.' });
   }
   if (heightFeet <= 0 || heightInches < 0) {
     return res.status(400).json({ error: 'Height must be positive.' });
   }
+
   const height = (heightFeet * 12 + heightInches);
-  // round to one decimal
   const bmi = Number((weight / (height * height) * 703).toFixed(1));
 
   let category;
+  if (bmi < 18.5) category = 'underweight';
+  else if (bmi >= 18.5 && bmi < 25) category = 'normal';
+  else if (bmi >= 25 && bmi < 30) category = 'overweight';
+  else category = 'obese';
 
-  if (bmi < 18.5) {
-    category = 'Underweight';
-  } else if (bmi < 25) {
-    category = 'Healthy';
-  } else if (bmi < 30) {
-    category = 'Overweight';
-  } else {
-    category = 'Obesity';
-  }
   res.json({ bmi, category });
 });
 
-// Blood Pressure API
 app.post('/bp', (req, res) => {
-	const { systolic, diastolic } = req.body;
-	// Input validation
-	if (!systolic || !diastolic) {
-		return res.status(400).json({ error: 'Systolic and diastolic pressure are required.' });
-	} 
-	if (typeof systolic !== 'number' || typeof diastolic !== 'number') {
-		return res.status(400).json({ error: 'Systolic and diastolic pressure must be numbers.' });
-	}
-	if (systolic <= 0 || diastolic < 0) {
-		return res.status(400).json({ error: 'Systolic and diastolic pressure must be positive.' });
-	}
-	// Determine category
-	let category;
-	if (systolic < 120 && diastolic < 80) {
-		category = "normal"
-	} else if (systolic > 120 && systolic < 130 && diastolic < 80) {
-		category = "elevated"
-	} else if ((systolic > 130 && systolic < 140) || (diastolic > 80 && diastolic < 90)) {
-		category = "stage_1"
-	} else if (systolic > 180 || diastolic > 120) {
-		category = "crisis"
-	} else if (systolic > 140 || diastolic > 90) {
-		category = "stage_2"
-	} else {
-		return res.status(400).json({ error: 'The blood pressure API has an error.' });
-	}
-	res.json(category)
-})
+  const { systolic, diastolic } = req.body;
+
+  if (systolic == null || diastolic == null) {
+    return res.status(400).json({ error: 'Systolic and diastolic are required.' });
+  }
+  if (typeof systolic !== 'number' || typeof diastolic !== 'number') {
+    return res.status(400).json({ error: 'Systolic and diastolic must be numbers.' });
+  }
+  if (systolic <= 0 || diastolic < 0) {
+    return res.status(400).json({ error: 'Systolic and diastolic must be positive.' });
+  }
+
+  let category;
+
+  if (systolic < 120 && diastolic < 80) category = "normal";
+  else if (systolic >= 120 && systolic < 130 && diastolic < 80) category = "elevated";
+  else if ((systolic >= 130 && systolic < 140) || (diastolic >= 80 && diastolic < 90)) category = "stage_1";
+  else if ((systolic >= 140 && systolic <= 180) || (diastolic >= 90 && diastolic <= 120)) category = "stage_2";
+  else if (systolic > 180 || diastolic > 120) category = "crisis";
+  else category = "unknown"; // fallback
+
+  res.json({ category });
+});
 
 //Risk API (Coltin Rogge)
 app.post('/risk', (req, res) => {
   const { age, bmiCategory, bpCategory, familyHistory} = req.body;
 
   // getting the input validation
-  if (age === null || bmiCategory === null || bpCategory === null || familyHistory === null) {
+  if (age == null || !bmiCategory || !bpCategory || !familyHistory) {
     return res.status(400).json({error: 'All fields are required.'});
   }
   let riskScore = 0;
@@ -95,9 +84,16 @@ app.post('/risk', (req, res) => {
   else  riskScore += 30; 
 
   // BMI risk scoring
+<<<<<<< HEAD
   if (bmiCategory === "Healthy") { riskScore += 0; }
   else if (bmiCategory === "Overweight") { riskScore += 30; }
   else if (bmiCategory === "Obesity") { riskScore += 75; }
+=======
+  if (bmiCategory === "underweight") { riskScore += 30; }
+  else if (bmiCategory === "normal") { riskScore += 0; }
+  else if (bmiCategory === "overweight") { riskScore += 30; }
+  else if (bmiCategory === "obese") { riskScore += 75; }
+>>>>>>> 92eaf82 (updated API error handling)
 
   // Blood Pressure risk scoring
   if (bpCategory === "normal") { riskScore += 0; }
