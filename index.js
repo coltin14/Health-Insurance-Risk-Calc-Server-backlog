@@ -58,11 +58,11 @@ app.post('/bp', (req, res) => {
 
   let category;
 
-  if (systolic < 120 && diastolic < 80) category = "normal";
-  else if (systolic >= 120 && systolic < 130 && diastolic < 80) category = "elevated";
-  else if ((systolic >= 130 && systolic < 140) || (diastolic >= 80 && diastolic < 90)) category = "stage_1";
+  if (systolic > 180 || diastolic > 120) category = "crisis";
   else if ((systolic >= 140 && systolic <= 180) || (diastolic >= 90 && diastolic <= 120)) category = "stage_2";
-  else if (systolic > 180 || diastolic > 120) category = "crisis";
+  else if ((systolic >= 130 && systolic < 140) || (diastolic >= 80 && diastolic < 90)) category = "stage_1";
+  else if (systolic >= 120 && systolic < 130 && diastolic < 80) category = "elevated";
+  else if (systolic < 120 && diastolic < 80) category = "normal";
   else category = "unknown"; // fallback
 
   res.json({ category });
